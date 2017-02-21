@@ -1,0 +1,113 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "9a56a588fb09dd8ac288cbe6b64f5821",
+    "content-hash": "228effc20524c24056166b551d123a94",
+    "packages": [
+        {
+            "name": "php2wsdl/php2wsdl",
+            "version": "0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dragosprotung/php2wsdl.git",
+                "reference": "4dc7a41667535bab9543de425b3bb6db54fda950"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dragosprotung/php2wsdl/zipball/4dc7a41667535bab9543de425b3bb6db54fda950",
+                "reference": "4dc7a41667535bab9543de425b3bb6db54fda950",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "wingu/reflection": "~1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHP2WSDL\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dragos Protung",
+                    "email": "dragos@protung.ro"
+                }
+            ],
+            "description": "Create WSDL files form PHP classes.",
+            "homepage": "http://github.com/dragosprotung/php2wsdl",
+            "keywords": [
+                "web services",
+                "wsdl",
+                "wsdl generator"
+            ],
+            "time": "2015-12-13 16:45:23"
+        },
+        {
+            "name": "wingu/reflection",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Speicher210/Reflection.git",
+                "reference": "3d0f5033077b6a3f47cebbeded6538caeb0a1909"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Speicher210/Reflection/zipball/3d0f5033077b6a3f47cebbeded6538caeb0a1909",
+                "reference": "3d0f5033077b6a3f47cebbeded6538caeb0a1909",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wingu\\OctopusCore\\Reflection\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dragos Protung",
+                    "email": "dragos@protung.ro",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Library on top of PHP Reflection with some extra helper methods and a more powerful PHP DocBlock and annotation tags reflection",
+            "homepage": "https://github.com/Speicher210/Reflection",
+            "keywords": [
+                "annotations",
+                "php reflection",
+                "reflection"
+            ],
+            "time": "2017-02-15 09:10:56"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteRule ^$ index.php [L,QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ([a-zA-Z\d-]*)/([a-zA-z\d-]*) index.php?page=$1&item=$2 [L,QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ([a-zA-Z\d-]*) index.php?page=$1 [L,QSA]

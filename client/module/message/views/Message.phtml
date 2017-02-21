@@ -1,0 +1,13 @@
+<div class="wrapper-message">
+	<div class="left">
+		<div class="name-message" style="color:<?=htmlentities($message->user->color_user)?>">
+			<?=htmlentities($message->user->login_user)?>
+		</div>
+		<div>
+			<?=htmlentities($message->content_message)?>
+		</div>
+		<div class="heure-message text-right">
+			<?=htmlentities($date)?>
+		</div>
+	</div>
+</div>

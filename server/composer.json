@@ -1,0 +1,12 @@
+{
+    "name": "root/tchat",
+    "authors": [
+        {
+            "name": "thomasbatt",
+            "email": "thomasbatt@gmail.com"
+        }
+    ],
+    "require": {
+        "php2wsdl/php2wsdl": "^0.5.0"
+    }
+}

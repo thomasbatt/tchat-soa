@@ -1,0 +1,104 @@
+<?php
+// AVANT
+$db = @mysqli_connect('localhost', 'root', 'troiswa', 'tchat');
+if (!$db)
+	$error = "Erreur interne";
+// APRES
+try
+{
+    $db = new PDO('mysql:dbname=tchat;host=127.0.0.1', 'root', 'troiswa');
+}
+catch (PDOException $e)
+{
+    $error = 'Erreur interne';
+}
+
+$login = mysqli_real_escape_string($this->db, $login);
+$login = $db->quote($login);
+
+// Pour une requete SELECT
+$res = mysqli_query($this->db, $query);
+$res = $db->query($query);
+
+// Pour UPDATE/INSERT/DELETE
+$res = mysqli_query($this->db, $query);
+$res = $db->exec($query);
+
+$user = mysqli_fetch_object($res, "User");
+$user = $res->fetchObject("User");
+
+$id = mysqli_insert_id($this->db);
+$id = $this->db->lastInsertId();
+
+var_dump(mysqli_error($this->db));
+var_dump($this->db->errorInfo());
+
+		// Les requêtes préparées ! (on en faisait pas avant, pas besoin en procédural normalement)
+	// Avec une liste de paramètres
+$query = "SELECT * FROM fruit WHERE calories < ? AND couleur = ?";
+$req = $db->prepare($query);
+$req->execute(array('150', 'rouge'));
+$list1 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list1[] = $fruit;
+$req->execute(array('100', 'vert'));
+$list2 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list2[] = $fruit;
+// $list1 => tous les fruits rouges < 150 calories
+// $list2 => tous les fruits verts < 100 calories
+// Sans avoir a re-écrire la requête SQL, on a juste changé les paramètres
+
+	// Avec un tableau associatif de paramètres
+$query = "SELECT * FROM fruit WHERE calories < :calories AND couleur = :couleur";
+$req = $db->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+$req->execute(array(':calories' => 150, ':couleur' => 'rouge'));
+$list1 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list1[] = $fruit;
+$req->execute(array(':calories' => 100, ':couleur' => 'vert'));
+$list2 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list2[] = $fruit;
+// $list1 => tous les fruits rouges < 150 calories
+// $list2 => tous les fruits verts < 100 calories
+// Sans avoir a re-écrire la requête SQL, on a juste changé les paramètres
+
+	// Avec le nom des paramètres un par un
+$query = "SELECT * FROM fruit WHERE calories < :calories AND couleur = :couleur";
+$req = $db->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+$sth->bindParam(':calories', 150, PDO::PARAM_INT);
+$sth->bindParam(':couleur', "rouge", PDO::PARAM_STR);
+$sth->execute();
+$list1 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list1[] = $fruit;
+$sth->bindParam(':calories', 100, PDO::PARAM_INT);
+$sth->bindParam(':couleur', "vert", PDO::PARAM_STR);
+$req->execute();
+$list2 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list2[] = $fruit;
+// $list1 => tous les fruits rouges < 150 calories
+// $list2 => tous les fruits verts < 100 calories
+// Sans avoir a re-écrire la requête SQL, on a juste changé les paramètres
+
+	// Avec la position des paramètres un par un
+$query = "SELECT * FROM fruit WHERE calories < ? AND couleur = ?";
+$req = $db->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+$sth->bindParam(1, 150, PDO::PARAM_INT);
+$sth->bindParam(2, "rouge", PDO::PARAM_STR);
+$sth->execute();
+$list1 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list1[] = $fruit;
+$sth->bindParam(1, 100, PDO::PARAM_INT);
+$sth->bindParam(2, "vert", PDO::PARAM_STR);
+$req->execute();
+$list2 = [];
+while ($fruit = $req->fetchObject("Fruit"))
+	$list2[] = $fruit;
+// $list1 => tous les fruits rouges < 150 calories
+// $list2 => tous les fruits verts < 100 calories
+// Sans avoir a re-écrire la requête SQL, on a juste changé les paramètres
+?>
