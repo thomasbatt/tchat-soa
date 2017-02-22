@@ -11,6 +11,8 @@ class UserManager
 	}
 	/**
     * @soap
+    * @param string
+    * @return object
     */
 	public function getByLogin($login)
 	{
@@ -30,6 +32,8 @@ class UserManager
 	}
 	/**
     * @soap
+    * @param integer
+    * @return object
     */
 	public function getById($id)
 	{
@@ -49,6 +53,10 @@ class UserManager
 	}
 	/**
     * @soap
+    * @param string
+    * @param string
+    * @param string
+    * @return object
     */
 	public function create($login, $pass1, $pass2)
 	{
@@ -72,6 +80,8 @@ class UserManager
 	}
 	/**
     * @soap
+    * @param integer
+    * @return object
     */
  	public function getAll()
  	{
@@ -90,6 +100,8 @@ class UserManager
  	}
 	/**
     * @soap
+    * @param integer
+    * @return boolean
     */
  	public function isConnected($id)
  	{
@@ -105,6 +117,8 @@ class UserManager
  	}
 	/**
     * @soap
+    * @param integer
+    * @return object
     */
  	public function upDateConnected($id)
  	{

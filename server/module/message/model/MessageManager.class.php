@@ -11,6 +11,8 @@ class MessageManager
 	}
 	/**
     * @soap
+    * @param integer
+    * @return object
     */
 	public function getById($Id)
 	{
@@ -30,6 +32,9 @@ class MessageManager
 	}
 	/**
     * @soap
+    * @param integer
+    * @param string
+    * @return object
     */
 	public function create($idUser, $content)
 	{
@@ -65,6 +70,8 @@ class MessageManager
 	}
 	/**
     * @soap
+    * @param integer
+    * @return object
     */
  	public function getAll($limit)
  	{

@@ -24,12 +24,16 @@ class Message
 	// --------------------Liste des getters------------------------------
 	/**
     * @soap
+    * @param NULL
+    * @return integer 
     */
 	public function getId() {
 		return $this->id_message; // On récupère la propriété id_message de $this
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return object 
     */
 	public function getUser() {
 		if ($this->user == null)
@@ -42,6 +46,8 @@ class Message
 
 	/**
     * @soap
+    * @param NULL
+    * @return string 
     */
 	public function getContentLinkHtmlentities(){
 		if( $this->content_message !== null){
@@ -53,12 +59,16 @@ class Message
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return string 
     */
 	public function getContent(){
 		return $this->content_message;
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return integer 
     */
 	public function getCreateDate() {
 		return $this->create_message;
@@ -67,6 +77,8 @@ class Message
 	// --------------------Liste des setters-------------------------------
 	/**
     * @soap
+    * @param integer
+    * @return string 
     */
 	public function setUser($idUser) {
 		if( isset($idUser) ){
@@ -76,6 +88,8 @@ class Message
 	}
 	/**
     * @soap
+    * @param string
+    * @return string 
     */
 	public function setContent($content) {
 		if (strlen($content) > 1 && strlen($content) < 1023) {

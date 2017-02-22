@@ -26,20 +26,28 @@ class User
 
     /**
     * @soap
+    * @param NULL
+    * @return integer
     */
 	public function getId() {
 		return $this->id_user; // On récupère la propriété id_user de $this
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return string
     */
 	public function getLogin() {
 		return $this->login_user;
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return string
     */	/**
     * @soap
+    * @param NULL
+    * @return string
     */
 	public function getHash()
 	{
@@ -47,6 +55,8 @@ class User
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return string
     */
 	public function getColor()
 	{
@@ -54,18 +64,24 @@ class User
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return string
     */
 	public function getCreateDate() {
 		return $this->create_user;
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return string
     */
 	public function getUpdate() {
 		return $this->update_user;
 	}
 	/**
     * @soap
+    * @param NULL
+    * @return boolean
     */
 	public function isAdmin() { // Un getter d'un booleen transforme le get en is
 		return $this->isAdmin_user;
@@ -74,6 +90,8 @@ class User
 	// --------------------Liste des setters-------------------------------
 	/**
     * @soap
+    * @param integer
+    * @return object
     */
 	public function setLogin($login) {
 		if (strlen($login) > 3 && strlen($login) < 31) {
@@ -82,6 +100,8 @@ class User
 	}
 	/**
     * @soap
+    * @param string
+    * @return object
     */
 	public function setColor($color) {
 		if (strlen($color) == 7) {
@@ -90,6 +110,8 @@ class User
 	}
 	/**
     * @soap
+    * @param integer
+    * @return object
     */
 	public function setUpdate($date) {
 		if ($date > time() ) {
@@ -98,6 +120,8 @@ class User
 	}
 	/**
     * @soap
+    * @param string
+    * @return object
     */
 	public function setAdmin($admin) {
 		// methode 1
@@ -111,6 +135,8 @@ class User
 	// --------------------Liste des méthodes "autres"---------------------
 	/**
     * @soap
+    * @param object
+    * @return object
     */
 	public function hydrate(array $data)
 	{
@@ -129,6 +155,8 @@ class User
 	// --------------------verifier password ?---------------------
 	/**
     * @soap
+    * @param string
+    * @return object
     */
 	public function verifPassword($password)
 	{
@@ -139,6 +167,10 @@ class User
 	// --------------------modifier password ?---------------------
 	/**
     * @soap
+    * @param string
+    * @param string
+    * @param string
+    * @return object
     */
 	public function editPassword($oldPassword, $newPassword1, $newPassword2)
 	{
@@ -163,6 +195,9 @@ class User
 
 	/**
     * @soap
+    * @param string
+    * @param string
+    * @return object
     */
 	public function initPassword($newPassword1, $newPassword2)
 	{

@@ -4,14 +4,13 @@ if ( isset( $_SESSION['limit'] ))
 	$limit = $_SESSION['limit'];
 
 // $MessageManager = new MessageManager($db);
-$MessageManager = $soapClass['MessageManager'];
-// $MessageManager = new SoapClient($wsdl."MessageManager",$soapOptions);
-
+// $MessageManager = $soapClass['MessageManager'];
+$MessageManager = new SoapClient($wsdl."MessageManager",$soapOptions);
 
 $messages = $MessageManager->getAll($limit);
-// var_dump($messages);
-// var_dump( $MessageManager->__getLastRequest());
-// exit;
+// soapDebug($MessageManager,'getAll',$limit);
+
+
 $count = sizeof($messages)-1;
 // var_dump($messages);
 while ( isset($messages[$count]) )
