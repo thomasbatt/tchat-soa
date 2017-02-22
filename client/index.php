@@ -50,12 +50,14 @@ function soapDebug($soapClass,$nameMethode,$param){
 	try{
 		$taballservices=$soapClass->$nameMethode($param);
 
+
 		echo nl2br("GetFunctions:\n");  var_dump($soapClass->__getFunctions()); echo nl2br("\n\n");
 		echo nl2br("GetTypes:\n");  var_dump($soapClass->__getTypes()); echo nl2br("\n\n");
 		echo nl2br("Request Header:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastRequestHeaders()))."\n");
 		echo nl2br("REQUEST:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastRequest()))."\n");
 		echo nl2br("Response Header:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastResponseHeaders()))."\n");
 		echo nl2br("Response:\n" . htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastResponse()))."\n");
+		
 
 		echo nl2br("Result of: ".$nameMethode."\n"); 
 		var_dump($taballservices);
@@ -64,10 +66,15 @@ function soapDebug($soapClass,$nameMethode,$param){
 
 		//On renvoie le résutat de notre méthode, pour voir...
 	}catch(SoapFault $fault){
-		echo 'Request : <br/><pre>',
-		$soapClass->__getLastRequest(),
-		'</pre><br/><br/> Error Message : <br/>',
-		$fault->getMessage();
+		echo '</pre><br/><br/> Error Message : <br/>',
+		$fault->getMessage(),
+		'<br/> Response : <br/>',
+		$soapClass->__getLastResponse();
+		'Request : <br/><pre>';
+		
+		echo nl2br("REQUEST:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastRequest()))."\n");
+		echo nl2br("REPONSE:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastResponse()))."\n");
+		// $soapClass->__getLastRequest(),
 		die();
 	}
 

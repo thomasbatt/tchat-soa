@@ -80,7 +80,7 @@ class UserManager
 	}
 	/**
     * @soap
-    * @param integer
+    * @param NULL
     * @return object
     */
  	public function getAll()
@@ -101,7 +101,7 @@ class UserManager
 	/**
     * @soap
     * @param integer
-    * @return boolean
+    * @return object
     */
  	public function isConnected($id)
  	{

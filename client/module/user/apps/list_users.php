@@ -6,6 +6,7 @@ $UserManager = new SoapClient($wsdl."UserManager",$soapOptions);
 $users = $UserManager->getAll();
 
 // soapDebug($UserManager,'getAll','');
+// soapDebug($UserManager,'getById',1);
 
 $UserManager->upDateConnected($_SESSION['id']);
 $count = 0;

@@ -11,17 +11,6 @@ require('module/user/model/UserManager.class.php');
 require('module/message/model/Message.class.php');
 require('module/message/model/MessageManager.class.php');
 
-try
-{
-    $db = new PDO('mysql:dbname='.$config['bdd'].';host='.$config['host'], $config['login'], $config['password']);
-}
-catch (PDOException $e)
-{
-	error_log("PDO ERROR: ". $e->getMessage());
-	echo("PDO ERROR: ". $e->getMessage());
-	die();
-}
-
 if(isset($_GET['wsdl']))
 {
 	try
@@ -44,8 +33,19 @@ if(isset($_GET['wsdl']))
 }
 
 if(isset($_GET['class'])){
+
+	session_start();
+	try
+	{
+	    $db = new PDO('mysql:dbname='.$config['bdd'].';host='.$config['host'], $config['login'], $config['password']);
+	}
+	catch (PDOException $e)
+	{
+		error_log("PDO ERROR: ". $e->getMessage());
+		echo("PDO ERROR: ". $e->getMessage());
+		// die();
+	}
 	try{
-		session_start();
 		ini_set('soap.wsdl_cache_enabled', 0);
 		$serversoap = new SoapServer(
 			// "http://localhost/openclassrooms/webservice-soa/server/tchat/soap.php?wsdl=".$_GET['class']
