@@ -3,11 +3,43 @@ class UserManager
 {
 	// Déclarer les propriétés
 	private $db;
+    public $myvar1;
+	public $myvar2;	
+
 
 	// Constructeur
-	public function __construct(PDO $db)
+	public function __construct()
 	{
-		$this->db = $db;
+		// $this->db = $db;
+	 	$this->__wakeup(); // On appelle notre wakeup pour relancer notre ressource
+	}
+
+	public function __wakeup() {
+		// $this->db = $db;
+	 	// $this->resource = CodeToStartOurResourceUp();
+	 	$config = [
+			'host' => 'localhost',
+			'port' => '3306',
+			'login' => 'root',
+			'password' => 'coworking',
+			'bdd' => 'tchat',
+		];
+ 		try
+		{
+		    $this->db = new PDO('mysql:dbname='.$config['bdd'].';host='.$config['host'], $config['login'], $config['password']);
+		}
+		catch (PDOException $e)
+		{
+			throw new Exception($e->getMessage());
+		}
+	}
+
+	public function __sleep() {
+		 // On s'assure d'enlever $resource ici, ainsi nos données peuvent persister en session
+		 // Si on oublie, la désérialisation lors de la prochaine requête échouera et notre objet
+		 // SoapObject ne sera donc pas persistant entre les requêtes.
+		 return array('myvar1','myvar2');
+		 // return NULL;
 	}
 	/**
     * @soap
@@ -80,7 +112,7 @@ class UserManager
 	}
 	/**
     * @soap
-    * @param NULL
+    * @param integer
     * @return object
     */
  	public function getAll()
@@ -101,7 +133,7 @@ class UserManager
 	/**
     * @soap
     * @param integer
-    * @return object
+    * @return boolean
     */
  	public function isConnected($id)
  	{

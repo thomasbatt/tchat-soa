@@ -33,8 +33,8 @@ if(isset($_GET['wsdl']))
 }
 
 if(isset($_GET['class'])){
-
-	session_start();
+	// $_SESSION = array();
+	// session_destroy();
 	try
 	{
 	    $db = new PDO('mysql:dbname='.$config['bdd'].';host='.$config['host'], $config['login'], $config['password']);
@@ -45,6 +45,7 @@ if(isset($_GET['class'])){
 		echo("PDO ERROR: ". $e->getMessage());
 		// die();
 	}
+	session_start();
 	try{
 		ini_set('soap.wsdl_cache_enabled', 0);
 		$serversoap = new SoapServer(
@@ -62,7 +63,7 @@ if(isset($_GET['class'])){
 
 			$serversoap->setClass($_GET['class'],$db);
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				// $serversoap->setPersistence(SOAP_PERSISTENCE_SESSION);
+				$serversoap->setPersistence(SOAP_PERSISTENCE_SESSION);
 			  	$serversoap->handle();
 			} else {
 			  echo "Ce serveur SOAP peut gérer la class ".$_GET['class']." avec les methodes suivantes : ";

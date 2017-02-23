@@ -70,11 +70,15 @@ function soapDebug($soapClass,$nameMethode,$param){
 		$fault->getMessage(),
 		'<br/> Response : <br/>',
 		$soapClass->__getLastResponse();
-		'Request : <br/><pre>';
+		'Request : <br/><br/><br/><pre>';
+		echo nl2br("\n\n");
 		
+		echo nl2br("GetFunctions:\n");  var_dump($soapClass->__getFunctions()); echo nl2br("\n\n");
+		echo nl2br("GetTypes:\n");  var_dump($soapClass->__getTypes()); echo nl2br("\n\n");
+		echo nl2br("Request Header:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastRequestHeaders()))."\n");
 		echo nl2br("REQUEST:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastRequest()))."\n");
-		echo nl2br("REPONSE:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastResponse()))."\n");
-		// $soapClass->__getLastRequest(),
+		echo nl2br("Response Header:\n".htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastResponseHeaders()))."\n");
+		echo nl2br("Response:\n" . htmlentities(str_ireplace('><', ">\n<",$soapClass->__getLastResponse()))."\n");
 		die();
 	}
 

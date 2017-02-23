@@ -9,6 +9,7 @@ $users = $UserManager->getAll();
 // soapDebug($UserManager,'getById',1);
 
 $UserManager->upDateConnected($_SESSION['id']);
+// soapDebug($UserManager,'upDateConnected',$_SESSION['id']);
 $count = 0;
 while ( isset($users[$count]) )
 {
