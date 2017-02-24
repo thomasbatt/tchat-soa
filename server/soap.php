@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require('config.php');
 require('vendor/autoload.php');
@@ -16,12 +16,33 @@ require('module/message/model/MessageManager.class.php');
 //     require('model/' . $class_name . '.php'); 
 // }
 
+ 
+ 
+// ------------------------------ URI SERVER SOAP ------------------------------
+$uri = preg_replace(['/index.php/','/client/'],["soap.php","server"],'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
+
+// $uri = "http://localhost/openclassrooms/webservice-soa/server/tchat/soap.php";
+// $uri = "http://tchat.webatt.fr/server/soap.php";
+
+// -----------------------------------------------------------------------------
+
+$wsdl = $uri."?wsdl=";
+$soap = $uri."?class=";
+$soapOptions = array(
+   	// 'wsdl_cache' => 0,
+   	// 'trace' => 1,
+   	'exceptions'=> 1
+); 
+// ini_set('soap.wsdl_cache_enabled', 0);
+
+
+
 if(isset($_GET['wsdl']))
 {
 	try
 	{
 		$class = $_GET['wsdl'];
-		$serviceURI = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'].'?class='.$_GET['wsdl'];
+		$serviceURI = $soap.$_GET['wsdl'];
 		$wsdlGenerator = new PHP2WSDL\PHPClass2WSDL($class, $serviceURI);
 		// Generate thw WSDL from the class adding only the public methods that have @soap annotation.
 		$wsdlGenerator->generateWSDL(true);
@@ -45,16 +66,9 @@ if(isset($_GET['class']))
 		$soapAccess = ['Message','MessageManager','User','UserManager'];
 		if (in_array($_GET['class'], $soapAccess ))
 		{
-			$serversoap = new SoapServer(
-				"http://localhost/openclassrooms/webservice-soa/tchat-soa/server/soap.php?wsdl=".$_GET['class'],
-				// null,
-				array(
-				// 'wsdl_cache' => 0,
-				// 'trace' => 1,
-				'exceptions'=> 1
-				)
-			);
+			$serversoap = new SoapServer($wsdl.$_GET['class'],$soapOptions);
 			$serversoap->setClass($_GET['class'],$dbConfig);
+
 			if ($_SERVER["REQUEST_METHOD"] == "POST")
 			{
 				$serversoap->setPersistence(SOAP_PERSISTENCE_SESSION);

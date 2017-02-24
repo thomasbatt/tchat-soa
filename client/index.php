@@ -11,10 +11,8 @@
 session_start();
 
 // ------------------------------ URI SERVER SOAP ------------------------------
-// $uri = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
-// $uri = preg_replace(['/index.php/','/client/'],["","server"],$uri)."soap.php";
+// $uri = preg_replace(['/index.php/','/client/'],["soap.php","server"],'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
 
-// $uri = "http://localhost/openclassrooms/webservice-soa/server/tchat/soap.php";
 $uri = "http://tchat.webatt.fr/server/soap.php";
 
 // -----------------------------------------------------------------------------
@@ -26,7 +24,7 @@ $soapOptions = array(
    	// 'trace' => 1,
    	'exceptions'=> 1
 ); 
-ini_set('soap.wsdl_cache_enabled', 0);
+// ini_set('soap.wsdl_cache_enabled', 0);
 
 
 function soapDebug($soapClass,$nameMethode,$param){
@@ -68,32 +66,8 @@ function soapDebug($soapClass,$nameMethode,$param){
 
 }
 
-
-// spl_autoload_register(function($class)
-// {
-//     $accessClass = [
-//     	'User' => 'module/user/model/'.$class.'.class.php',
-//     	'UserManager' => 'module/user/model/'.$class.'.class.php', 
-//     	'Message' => 'module/message/model/'.$class.'.class.php',
-//     	'MessageManager' => 'module/message/model/'.$class.'.class.php', 
-//     ];
-//     require($accessClass[$class]);
-// });
-
-
 require('apps/listeErrors.php');
 require('config.php');
-
-try
-{
-    $db = new PDO('mysql:dbname='.$config['bdd'].';host='.$config['host'], $config['login'], $config['password']);
-}
-catch (PDOException $e)
-{
-	require('views/errors500.phtml');
-	die();
-	// $_GET['page'] = 'errors';
-}
 
 if (isset($_SESSION['id']))
 {
