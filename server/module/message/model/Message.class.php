@@ -52,6 +52,7 @@ class Message extends ConnectionDB
     */
 	public function getContentLinkHtmlentities(){
 		if( $this->content_message !== null){
+			$this->content_message = htmlentities($this->content_message);
 			$this->content_message = preg_replace('/(http[s]{0,1}\:\/\/\S{4,})\s{0,}/ims', '<a href="$1" target="_blank">$1</a> ', $this->content_message);
 		}
 
