@@ -41,7 +41,7 @@
     }
     #navbar-right {
       float: right;
-      width: 150px; /* You can adjust the width to your liking, just remember to also adjust the content margin below accordingly */
+      width: auto; /* You can adjust the width to your liking, just remember to also adjust the content margin below accordingly */
       height: 100%;
     }
  
