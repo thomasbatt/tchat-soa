@@ -11,10 +11,11 @@
 session_start();
 
 // ------------------------------ URI SERVER SOAP ------------------------------
-$uri = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
-$uri = preg_replace(['/index.php/','/client/'],["","server"],$uri)."soap.php";
+// $uri = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+// $uri = preg_replace(['/index.php/','/client/'],["","server"],$uri)."soap.php";
 
 // $uri = "http://localhost/openclassrooms/webservice-soa/server/tchat/soap.php";
+$uri = "http://tchat.webatt.fr/server/soap.php";
 
 // -----------------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ $soapOptions = array(
    	// 'trace' => 1,
    	'exceptions'=> 1
 ); 
-// ini_set('soap.wsdl_cache_enabled', 0);
+ini_set('soap.wsdl_cache_enabled', 0);
 
 
 function soapDebug($soapClass,$nameMethode,$param){

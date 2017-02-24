@@ -12,9 +12,9 @@ require('module/user/model/UserManager.class.php');
 require('module/message/model/Message.class.php');
 require('module/message/model/MessageManager.class.php');
 
-function __autoload($class_name){
-    require('model/' . $class_name . '.php'); 
-}
+// function __autoload($class_name){
+//     require('model/' . $class_name . '.php'); 
+// }
 
 if(isset($_GET['wsdl']))
 {
