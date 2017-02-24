@@ -1,7 +1,7 @@
 <?php
 // $UserManager = new UserManager($db);
 // $UserManager = $soapClass['UserManager'];
-$UserManager = new SoapClient($wsdl."UserManager",$soapOptions);
+$UserManager = new SoapClient($wsdl."UserManager", $soapOptions);
 
 $users = $UserManager->getAll();
 
@@ -10,6 +10,7 @@ $users = $UserManager->getAll();
 
 $UserManager->upDateConnected($_SESSION['id']);
 // soapDebug($UserManager,'upDateConnected',$_SESSION['id']);
+
 $count = 0;
 while ( isset($users[$count]) )
 {

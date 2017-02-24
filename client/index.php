@@ -1,50 +1,32 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-session_start();
 // var_dump($_GET);
 // var_dump($_POST);
 // var_dump($_SESSION);
 // exit;
 
-ini_set('soap.wsdl_cache_enabled', 0);
-// $uri = "http://localhost/openclassrooms/webservice-soa/server/tchat/soap.php";
+session_start();
+
+// ------------------------------ URI SERVER SOAP ------------------------------
 $uri = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
 $uri = preg_replace(['/index.php/','/client/'],["","server"],$uri)."soap.php";
+
+// $uri = "http://localhost/openclassrooms/webservice-soa/server/tchat/soap.php";
+
+// -----------------------------------------------------------------------------
+
 $wsdl = $uri."?wsdl=";
 $soap = $uri."?class=";
 $soapOptions = array(
-   	'wsdl_cache' => 0,
-   	'trace' => 1,
+   	// 'wsdl_cache' => 0,
+   	// 'trace' => 1,
    	'exceptions'=> 1
 ); 
-$soapClass = ['Message'=>'','MessageManager'=>'','User'=>'','UserManager'=>''];
-foreach ($soapClass as $class => $value) {
-	$soapClass[$class] = new SoapClient(
-		null,
-		array(
-			'location' => $soap.$class,
-	    	'uri'      => "http://localhost/",
-	    	'wsdl_cache' => 0,
-	    	'trace' => 1,
-	    	'exceptions'=> 1
-	    )
-	);
-}
+// ini_set('soap.wsdl_cache_enabled', 0);
 
-spl_autoload_register(function($class)
-{
-    $accessClass = [
-    	'User' => 'module/user/model/'.$class.'.class.php',
-    	'UserManager' => 'module/user/model/'.$class.'.class.php', 
-    	'Message' => 'module/message/model/'.$class.'.class.php',
-    	'MessageManager' => 'module/message/model/'.$class.'.class.php', 
-    ];
-    require($accessClass[$class]);
-});
 
 function soapDebug($soapClass,$nameMethode,$param){
 	try{
@@ -66,7 +48,7 @@ function soapDebug($soapClass,$nameMethode,$param){
 
 		//On renvoie le résutat de notre méthode, pour voir...
 	}catch(SoapFault $fault){
-		echo '</pre><br/><br/> Error Message : <br/>',
+		echo '</pre><br/><br/> ErrorException Message : <br/>',
 		$fault->getMessage(),
 		'<br/> Response : <br/>',
 		$soapClass->__getLastResponse();
@@ -86,6 +68,16 @@ function soapDebug($soapClass,$nameMethode,$param){
 }
 
 
+// spl_autoload_register(function($class)
+// {
+//     $accessClass = [
+//     	'User' => 'module/user/model/'.$class.'.class.php',
+//     	'UserManager' => 'module/user/model/'.$class.'.class.php', 
+//     	'Message' => 'module/message/model/'.$class.'.class.php',
+//     	'MessageManager' => 'module/message/model/'.$class.'.class.php', 
+//     ];
+//     require($accessClass[$class]);
+// });
 
 
 require('apps/listeErrors.php');
@@ -154,14 +146,5 @@ if (!isset($_GET['ajax']))
 	require('apps/skel.php');
 else
 	require($page);
-	// if (in_array($_GET['page'], $ajax ))
-	// {
-	// 	$page = $_GET['page'];
 
-	// 	$accessAjax = [
- //    		'listeMessage' => 'module/message/apps/'.$page.'.php',
- //    		'footer' => 'apps/'.$page.'.php',
- //    	];
- //    	require($accessAjax[$page]);
- //    }
 ?>

@@ -21,7 +21,7 @@ if (isset($_POST['action']))
 			try
 			{
 				// $UserManager = new UserManager($db);
-				$UserManager = $soapClass['UserManager'];
+				$UserManager = new soapClient($wsdl.'UserManager',$soapOptions);
 				$user = $UserManager->create($_POST['login'],$_POST['password1'],$_POST['password2']);
 				$_SESSION['id'] = $user->id_user;
 				$_SESSION['login'] = $user->login_user;
@@ -41,18 +41,23 @@ if (isset($_POST['action']))
 		{
 			try
 			{
-				$UserManager = new UserManager($db);
-				$user = $UserManager->getByLogin($_POST['login']);
+				// $UserManager = new UserManager($db);
+				$UserManager = new soapClient($wsdl.'UserManager',$soapOptions);
+				// soapDebug($UserManager,'getByLogin',$_POST['login']);
 
-				// $UserManager = $soapClass['UserManager'];
-				// $user = $soapClass['User'];
-				// $user = $user->hydrate($UserManager->getByLogin($_POST['login']));
-				
+				// $user = $UserManager->getByLogin($_POST['login']);
+				$user = new soapClient($wsdl.'User',$soapOptions);
+				$user->hydrate($UserManager->getByLogin($_POST['login']));
+				// soapDebug($User,'hydrate',$UserManager->getByLogin($_POST['login']));
+				// die();
+
 				$user->verifPassword($_POST['password']);
+				// soapDebug($User,'verifPassword',$_POST['password']);
+				// die();
+
 				$_SESSION['id'] = $user->getId();
 				$_SESSION['login'] = $user->getLogin();
 				header('Location: messages');
-				exit;
 			}
 			catch (Exception $e)
 			{

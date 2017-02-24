@@ -1,6 +1,6 @@
 <?php
 //-------------------- THOMAS HOME --------------------
-// $config = [
+// $dbConfig = [
 // 	'host' => 'localhost',
 // 	'port' => '3306',
 // 	'login' => 'tchat',
@@ -10,7 +10,7 @@
 
 //-------------------- HERVE HOME --------------------
 
-// $config = array(
+// $dbConfig = array(
 // 	'host' => 'localhost',
 // 	'port' => '8889',
 // 	'login' => 'root',
@@ -20,7 +20,7 @@
 
 //-------------------- IDANDTI HOME --------------------
 
-$config = [
+$dbConfig = [
 	'host' => 'localhost',
 	'port' => '3306',
 	'login' => 'tchat',
@@ -30,7 +30,7 @@ $config = [
 
 //-------------------- 3WA HOME --------------------
 
-// $config = [
+// $dbConfig = [
 // 	'host' => '192.168.1.7',
 // 	'port' => '3306',
 // 	'login' => 'tchat_object',
@@ -38,13 +38,5 @@ $config = [
 // 	'bdd' => 'tchat_object',
 // ];
 
-//-------------------- OVH HOME --------------------
 
-// $config = [
-// 	'host' => 'thomasbazpetite2.mysql.db',
-// 	'port' => '3306',
-// 	'login' => 'thomasbazpetite2',
-// 	'password' => 'Janolap10',
-// 	'bdd' => 'thomasbazpetite2',
-// ];
 ?>

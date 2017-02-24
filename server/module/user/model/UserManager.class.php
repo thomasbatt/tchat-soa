@@ -1,46 +1,14 @@
 <?php
-class UserManager
+class UserManager extends ConnectionDB
 {
-	// Déclarer les propriétés
-	private $db;
-    public $myvar1;
-	public $myvar2;	
+	private $dbConfig;
 
-
-	// Constructeur
-	public function __construct()
+	public function __construct(array $dbConfig)
 	{
-		// $this->db = $db;
-	 	$this->__wakeup(); // On appelle notre wakeup pour relancer notre ressource
+		$this->dbConfig = $dbConfig;
+		parent::__construct($this->dbConfig);
 	}
 
-	public function __wakeup() {
-		// $this->db = $db;
-	 	// $this->resource = CodeToStartOurResourceUp();
-	 	$config = [
-			'host' => 'localhost',
-			'port' => '3306',
-			'login' => 'root',
-			'password' => 'coworking',
-			'bdd' => 'tchat',
-		];
- 		try
-		{
-		    $this->db = new PDO('mysql:dbname='.$config['bdd'].';host='.$config['host'], $config['login'], $config['password']);
-		}
-		catch (PDOException $e)
-		{
-			throw new Exception($e->getMessage());
-		}
-	}
-
-	public function __sleep() {
-		 // On s'assure d'enlever $resource ici, ainsi nos données peuvent persister en session
-		 // Si on oublie, la désérialisation lors de la prochaine requête échouera et notre objet
-		 // SoapObject ne sera donc pas persistant entre les requêtes.
-		 return array('myvar1','myvar2');
-		 // return NULL;
-	}
 	/**
     * @soap
     * @param string
@@ -57,10 +25,10 @@ class UserManager
 			if ($user)
 				return $user;
 			else
-				throw new Exception("Login incorrect");
+				throw new SoapFault("User: ", "Login incorrect");
 		}
 		else
-			throw new Exception("Erreur interne");
+			throw new SoapFault("User: ", "Erreur interne");
 	}
 	/**
     * @soap
@@ -78,10 +46,10 @@ class UserManager
 			if ($user)
 				return $user;
 			else
-				throw new Exception("id incorrect");
+				throw new SoapFault("User: ", "id incorrect");
 		}
 		else
-			throw new Exception("Erreur interne");
+			throw new SoapFault("User: ", "Erreur interne");
 	}
 	/**
     * @soap
@@ -106,7 +74,7 @@ class UserManager
 		}
 		catch (Exception $e)
 		{
-			throw new Exception("Erreur interne");
+			throw new SoapFault("User: ", "Erreur interne");
 		}
 		return $this->getByLogin($user->getLogin());
 	}
@@ -127,7 +95,7 @@ class UserManager
 		}
 		catch (Exception $e)
 		{
-			throw new Exception("Erreur interne");
+			throw new SoapFault("User: ", "Erreur interne");
 		}
  	}
 	/**

@@ -14,14 +14,6 @@ class User
 	
 // ------------------------Déclarer les méthodes--------------------------
 
-	// Constructeur
-	// public function __construct($data)
-	// {
-	// 	$this->hydrate($this->idUser_message);
-	// 	$this->getContentLinkHtmlentities();
-	// }
-
-
 	// --------------------Liste des getters------------------------------
 
     /**
@@ -138,17 +130,15 @@ class User
     * @param object
     * @return object
     */
-	public function hydrate(array $data)
+	public function hydrate($data)
 	{
-	  foreach ($data as $key => $value)
-	  {
-	    $method = 'set'.ucfirst($key);
-	    $method = preg_replace("/_user/","",$method);
-	    if (method_exists($this, $method)) 
-	    {
-	      $this->$method($value);
-	    }
-	  }
+		foreach ($data as $property => $value)
+		{
+			if (property_exists($this, $property) ) 
+			{
+				$this->$property = $value;
+			}
+		}
 	  return $this;
 	}
 
@@ -160,8 +150,10 @@ class User
     */
 	public function verifPassword($password)
 	{
-		if (!password_verify($password, $this->hash_user))
-			throw new Exception("Mot de passe incorrect");
+		if (!password_verify($password, $this->hash_user)){
+			throw new SoapFault("User: ", "Mot de passe incorrect");
+			// throw new Exception("Mot de passe incorrect");
+		}
 	}
 
 	// --------------------modifier password ?---------------------
@@ -184,13 +176,13 @@ class User
 					$this->hash_user = password_hash($newPassword, PASSWORD_BCRYPT, ["cost"=>12]);
 				}
 				else
-					throw new Exception("Ancien mot de passe incorrect");
+					throw new SoapFault("User: ", "Ancien mot de passe incorrect");
 			}
 			else
-				throw new Exception("Mot de passe est trop court (< 6 caractères)");
+				throw new SoapFault("User: ", "Mot de passe est trop court (< 6 caractères)");
 		}
 		else
-			throw new Exception("Les deux mots de passes ne correspondent");
+			throw new SoapFault("User: ", "Les deux mots de passes ne correspondent");
 	}
 
 	/**
@@ -211,30 +203,14 @@ class User
 					$this->hash_user = password_hash($newPassword, PASSWORD_BCRYPT, ["cost"=>12]);
 				}
 				else
-					throw new Exception("Mot de passe est trop court (< 6 caractères)");
+					throw new SoapFault("User: ", "Mot de passe est trop court (< 6 caractères)");
 			}
 			else
-				throw new Exception("Les deux mots de passes ne correspondent");
+				throw new SoapFault("User: ", "Les deux mots de passes ne correspondent");
 		}
 		else
-			throw new Exception("Impossible d'initialiser un mot de passe une seconde fois");
+			throw new SoapFault("User: ", "Impossible d'initialiser un mot de passe une seconde fois");
 	}
 }
-
-// Tout ça n'a rien a foutre dans le fichier User.class.php, mais c'est plus pratique pour apprendre
-
-// ------------------------------------------------------------------------
-// --------------------On va INSTANCIER notre classe User------------------
-// --------------------$user => objet--------------------------------------
-// --------------------User => classe--------------------------------------
-// --------------------Un objet est une instance d'une classe--------------
-// ------------------------------------------------------------------------
-
-// $user = new User();
-// $user->setLogin("toto");
-// $user->initPassword("password", "password");
-
-// var_dump($user);
-
 
 ?>

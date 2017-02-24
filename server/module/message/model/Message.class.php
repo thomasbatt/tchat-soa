@@ -1,7 +1,7 @@
 <?php
 // PascalCase pour le nom des classes
 // camelCase pour le nom des variables
-class Message
+class Message extends ConnectionDB
 {
 // ------------------------ Déclarer les propriétés-----------------------
 	private $id_message;
@@ -9,12 +9,13 @@ class Message
 	private $user;// valeur calculée -> composition
 	private $content_message;
 	private $create_message;
-	private $db;
+
 
 	// Constructeur
-	public function __construct($db)
+	public function __construct(array $dbConfig)
 	{
-		$this->db = $db;
+		$this->dbConfig = $dbConfig;
+		parent::__construct($this->dbConfig);
 		$this->setUser($this->idUser_message);
 		$this->getContentLinkHtmlentities();
 	}
@@ -38,7 +39,7 @@ class Message
 	public function getUser() {
 		if ($this->user == null)
 		{
-			$manager = new UserManager($this->db);
+			$manager = new UserManager($this->dbConfig);
 			$this->user = $manager->getById($this->idUser_message);
 		}
 		return $this->user;
@@ -82,7 +83,7 @@ class Message
     */
 	public function setUser($idUser) {
 		if( isset($idUser) ){
-			$manager = new UserManager($this->db);
+			$manager = new UserManager($this->dbConfig);
 			$this->user = $manager->getById($idUser);
 		}
 	}
@@ -103,21 +104,5 @@ class Message
 	// --------------------Liste des méthodes "autres"---------------------
 
 }
-
-// Tout ça n'a rien a foutre dans le fichier User.class.php, mais c'est plus pratique pour apprendre
-
-// ------------------------------------------------------------------------
-// --------------------On va INSTANCIER notre classe User------------------
-// --------------------$user => objet--------------------------------------
-// --------------------User => classe--------------------------------------
-// --------------------Un objet est une instance d'une classe--------------
-// ------------------------------------------------------------------------
-
-// $user = new User();
-// $user->setLogin("toto");
-// $user->initPassword("password", "password");
-
-// var_dump($user);
-
 
 ?>

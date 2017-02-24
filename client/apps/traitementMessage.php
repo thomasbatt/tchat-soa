@@ -19,11 +19,12 @@ if (isset($_POST['action']))
 		if (isset( $_POST['content'] ))
 		{
 			// $MessageManager = new MessageManager($db);
-			$MessageManager = $soapClass['MessageManager'];
+			$MessageManager = new soapClient($wsdl.'MessageManager',$soapOptions);
+
 			try
 			{
 				// $manager = new UserManager($db);
-				$manager = $soapClass['UserManager'];
+				$manager = new soapClient($wsdl.'UserManager',$soapOptions);
 				// $author = $manager->getById($_SESSION['id']);
 				$author = $manager->getById($_SESSION['id'])->id_user;
 				$MessageManager->create($author, $_POST['content']);

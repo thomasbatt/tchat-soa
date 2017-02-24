@@ -1,14 +1,16 @@
 <?php
-class MessageManager
+class MessageManager extends ConnectionDB
 {
 	// Déclarer les propriétés
-	private $db;
+	private $dbConfig;
 
-	// Constructeur
-	public function __construct($db)
+	public function __construct(array $dbConfig)
 	{
-		$this->db = $db;
+		$this->dbConfig = $dbConfig;
+		parent::__construct($this->dbConfig);
 	}
+
+
 	/**
     * @soap
     * @param integer
@@ -21,14 +23,14 @@ class MessageManager
 		$res = $this->db->query($query);
 		if ($res)
 		{
-			$message = $res->fetchObject("Message", [$this->db]);
+			$message = $res->fetchObject("Message", [$this->dbConfig]);
 			if ($message)
 				return $message;
 			else
-				throw new Exception("Id message incorrect");
+				throw SoapFault("Message: ", "Id message incorrect");
 		}
 		else
-			throw new Exception("Erreur interne");
+			throw SoapFault("Message: ", "Erreur interne");
 	}
 	/**
     * @soap
@@ -38,7 +40,7 @@ class MessageManager
     */
 	public function create($idUser, $content)
 	{
-		$message = new Message($this->db);
+		$message = new Message($this->dbConfig);
 		$message->setUser($idUser);
 		try
 		{
@@ -64,7 +66,7 @@ class MessageManager
 			}
 			catch (Exception $e)
 			{
-				throw new Exception("Erreur interne");
+				throw SoapFault("Message: ", "Erreur interne");
 			}
 		}
 	}
@@ -80,13 +82,13 @@ class MessageManager
  		$res = $this->db->query($query);
  		try
 		{
- 			while ( $message = $res->fetchObject("Message", [$this->db]) )
+ 			while ( $message = $res->fetchObject("Message", [$this->dbConfig]) )
 				$messages [] = $message;
 			return $messages;
 		}
 		catch (Exception $e)
 		{
-			throw new Exception("Erreur interne");
+			throw SoapFault("Message: ", "Erreur interne");
 		}
  	}
 
