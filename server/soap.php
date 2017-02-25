@@ -1,43 +1,31 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require('config.php');
 require('vendor/autoload.php');
 
-require('ConnectionDB.class.php');
-require('module/user/model/User.class.php');
-require('module/user/model/UserManager.class.php');
-require('module/message/model/Message.class.php');
-require('module/message/model/MessageManager.class.php');
-
-// function __autoload($class_name){
-//     require('model/' . $class_name . '.php'); 
-// }
-
- 
- 
-// ------------------------------ URI SERVER SOAP ------------------------------
-$uri = preg_replace(['/index.php/','/client/'],["soap.php","server"],'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
-
-// $uri = "http://localhost/openclassrooms/webservice-soa/server/tchat/soap.php";
-// $uri = "http://tchat.webatt.fr/server/soap.php";
-
-// -----------------------------------------------------------------------------
-
-$wsdl = $uri."?wsdl=";
-$soap = $uri."?class=";
+$soapAccess = ['Message','MessageManager','User','UserManager'];
 $soapOptions = array(
    	// 'wsdl_cache' => 0,
    	// 'trace' => 1,
    	'exceptions'=> 1
 ); 
+ 
+$uri = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+$wsdl = $uri."?wsdl=";
+$soap = $uri."?class=";
+$requireClass = array_merge(['ConnectionDB'],$soapAccess);
+$i=0;
+while(isset($requireClass[$i])){
+	require('model/' . $requireClass[$i] . '.class.php'); 
+	$i++;
+}
 // ini_set('soap.wsdl_cache_enabled', 0);
 
 
-
-if(isset($_GET['wsdl']))
+if(isset($_GET['wsdl']) && in_array($_GET['wsdl'], $soapAccess ))
 {
 	try
 	{
@@ -57,15 +45,10 @@ if(isset($_GET['wsdl']))
 	}
 	die();
 }
-
-if(isset($_GET['class']))
+else if( isset($_GET['class']) && in_array($_GET['class'], $soapAccess ) )
 {
 	session_start();
 	try{
-		ini_set('soap.wsdl_cache_enabled', 0);
-		$soapAccess = ['Message','MessageManager','User','UserManager'];
-		if (in_array($_GET['class'], $soapAccess ))
-		{
 			$serversoap = new SoapServer($wsdl.$_GET['class'],$soapOptions);
 			$serversoap->setClass($_GET['class'],$dbConfig);
 
@@ -79,15 +62,6 @@ if(isset($_GET['class']))
 			  $functions = $serversoap->getFunctions();
 			  var_dump($functions);
 			}
-		}else
-		{
-			echo 'Class non autorisée. Les methodes partagées sont: ';
-			$i=0;
-			while(isset($soapAccess[$i])){
-				echo $soapAccess[$i]." / ";
-				$i++;
-			}
-		}
 
 	}
 	catch(SoapFault $e)
@@ -96,5 +70,14 @@ if(isset($_GET['class']))
 		echo("SOAP ERROR: ". $e->getMessage());
 	}
 	die();
+}
+else
+{
+	echo 'Erreur. Seules les classes suivantes sont partagées: ';
+	$i=0;
+	while(isset($soapAccess[$i])){
+		echo $soapAccess[$i]." / ";
+		$i++;
+	}
 }
 
